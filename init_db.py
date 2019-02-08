@@ -2,7 +2,6 @@ from sqlalchemy import create_engine, MetaData
 import aiohttp
 import asyncio
 
-from app.settings import config
 from app.db import users, units
 
 dsn = "postgresql://{user}:{password}@{host}:{port}/{database}"
@@ -20,15 +19,16 @@ async def sample_data():
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
-            print(resp.text)
-            return resp.text
+            print(resp.status)
+            print(await resp.text())
+            return await resp.text()
 
 
 if __name__ == '__main__':
-    # db_url = dsn.format(**config['postgres'])
-    # engine = create_engine(db_url)
-    #
-    # create_tables(engine)
-    # sample_data(engine)
+    db_url = dsn.format(**config['postgres'])
+    engine = create_engine(db_url)
+
+    create_tables(engine)
+
     loop = asyncio.get_event_loop()
     loop.run_until_complete(sample_data())

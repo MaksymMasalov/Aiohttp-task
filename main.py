@@ -5,7 +5,6 @@ import jinja2
 from app.settings import config
 from app.db import startup, shutdown
 from app.routes import setup_routes
-from init_db import sample_data
 
 
 def main():
