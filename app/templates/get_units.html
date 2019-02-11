@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {% extends "base.html" %}
 
-    {% block content %}
+{% extends "base.html" %}
 
+{% block content %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<table>
+    <caption>Список транспортных средств</caption>
+{% for unit in units %}
+    <tr>
+        <td style="width: 100px">{{ unit.id }}</td>
+        <td style="width: 100px">{{ unit.creator }}</td>
+        <td>{{ unit.name }}</td>
+    </tr>
+{% endfor %}
+</table>
 
-
-    {% endblock %}
-</body>
-</html>
+{% endblock %}

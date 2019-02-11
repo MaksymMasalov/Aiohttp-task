@@ -1,7 +1,6 @@
 import aiopg.sa
-from sqlalchemy.sql import select
 from sqlalchemy import (
-    MetaData, Table, Column, ForeignKey,
+    MetaData, Table, Column,
     Integer, String
 )
 
@@ -10,7 +9,7 @@ meta = MetaData()
 users = Table(
     'users', meta,
 
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer),
     Column('creator', Integer),
     Column('login', String(50))
 )
@@ -18,7 +17,7 @@ users = Table(
 units = Table(
     'units', meta,
 
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer),
     Column('creator', Integer),
     Column('name', String(50))
 )
@@ -31,9 +30,18 @@ class RecordNotFound(Exception):
 async def get_users(conn):
     """Database query"""
 
-    result = await conn.execute(select([users]))
-    users_record = await result.fetchall()
+    res = await conn.execute(users.select().order_by('id'))
+    users_record = await res.fetchall()
     return users_record
+
+
+async def get_units(conn):
+    """Database query"""
+
+    res = await conn.execute(units.select())
+    units_record = await res.fetchall()
+
+    return units_record
 
 
 async def startup(app):

@@ -1,6 +1,4 @@
 from aiohttp import web
-from sqlalchemy import select
-import aiohttp
 import aiohttp_jinja2
 
 from app import db
@@ -11,10 +9,14 @@ async def index(request):
 
 
 @aiohttp_jinja2.template('get_users.html')
-async def post(request):
+async def user(request):
     async with request.app['db'].acquire() as conn:
-        query = select([db.users])
-        print(query)
-        result = await conn.execute(query)
+        users = await db.get_users(conn)
+    return {'users': users}
 
-    return aiohttp.web.Response(body=str(result))
+
+@aiohttp_jinja2.template('get_units.html')
+async def unit(request):
+    async with request.app['db'].acquire() as conn:
+        units = await db.get_units(conn)
+    return {'units': units}

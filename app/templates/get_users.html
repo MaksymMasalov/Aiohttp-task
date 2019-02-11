@@ -1,28 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {% extends "base.html" %}
-    {% block content %}
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
+{% extends "base.html" %}
 
+{% block content %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <table>
-        <caption>Список пользователей</caption>
-        <tr>
-        {% for user in users %}
-            <td>{{user.id}}</td>
-            <td>{{user.creator}}</td>
-            <td>{{user.login}}</td>
-        {% endfor %}
-        </tr>
-    </table>
+<table>
+    <caption>Список пользователей</caption>
+{% for user in users %}
+    <tr>
+        <td style="width: 100px">{{ user.id }}</td>
+        <td style="width: 100px">{{ user.creator }}</td>
+        <td>{{ user.login }}</td>
+    </tr>
+{% endfor %}
+</table>
 
-
-    {% endblock %}
-</body>
-</html>
+{% endblock %}
